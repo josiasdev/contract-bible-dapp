@@ -2,15 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { isConnected, requestAccess, getAddress } from "@stellar/freighter-api";
-import Navbar from "@/components/Navbar";
-// 1. Importe o Button do shadcn/ui aqui também
+import Navbar from "@/components/Navbar/Navbar";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const [publicKey, setPublicKey] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // ... (a lógica useEffect e handleConnect permanece a mesma) ...
   useEffect(() => {
     const checkConnection = async () => {
       setLoading(true);
@@ -38,6 +36,11 @@ export default function Home() {
     setLoading(false);
   };
 
+  const handleDisconnect = () => {
+    setPublicKey("");
+   
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-neutral-900 text-white">
       
@@ -45,6 +48,7 @@ export default function Home() {
         loading={loading}
         publicKey={publicKey}
         handleConnect={handleConnect}
+        handleDisconnect={handleDisconnect}
       />
 
       <main className="flex-grow flex flex-col items-center justify-center text-center p-8">
@@ -56,13 +60,6 @@ export default function Home() {
           <p className="text-xl md:text-2xl text-neutral-300 mb-10">
             Explore as escrituras, registre seu progresso de leitura e compartilhe reflexões de forma imutável e descentralizada na rede Stellar.
           </p>
-          
-          {/* 2. Botão principal substituído pelo shadcn/ui */}
-          {!loading && !publicKey && (
-            <Button onClick={handleConnect} size="lg" className="text-lg">
-              Conectar Carteira para Começar
-            </Button>
-          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
